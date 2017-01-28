@@ -9,7 +9,9 @@ if [ -f `which lsb_release &>/dev/null` ]; then
         HOST_OS=$(lsb_release -a 2>/dev/null|grep 'Distributor ID' | cut -d ':' -f2 |xargs)
 fi
 
-if [ -z "$HOST_OS" -a -f "`which rpm 2&>/dev/null`" ]; then
+which rpm &>/dev/null
+STAT=$?
+if [ -z "$HOST_OS" -a $STAT -eq 0 ]; then
         HOST_OS=$(rpm -qi  basesystem |grep Vendor |cut -d : -f2 |xargs)
 fi
 
